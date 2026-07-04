@@ -1,0 +1,91 @@
+<section class="blog-layout">
+  <header class="hero">
+    <p class="hero__eyebrow">Actividad 5</p>
+    <h1>Sistema Blogging en Angular</h1>
+    <p class="hero__text">
+      Publica noticias desde un formulario y visualizalas en el mismo componente,
+      usando eventos, templating y arrays en Angular.
+    </p>
+  </header>
+
+  <div class="panel-grid">
+    <section class="panel panel--formulario">
+      <div class="panel__header">
+        <p class="panel__kicker">Formulario</p>
+        <h2>Nueva publicacion</h2>
+        <p>Todos los campos son obligatorios antes de insertar la noticia en el listado.</p>
+      </div>
+
+      <form #formularioNoticia="ngForm" (ngSubmit)="agregarNoticia(formularioNoticia)" class="blog-form">
+        <label class="campo">
+          <span>Titulo</span>
+          <input
+            type="text"
+            name="titulo"
+            [(ngModel)]="nuevaNoticia.titulo"
+            placeholder="Escribe el titulo de la noticia"
+            required
+          />
+        </label>
+
+        <label class="campo">
+          <span>Imagen (URL)</span>
+          <input
+            type="url"
+            name="imagen"
+            [(ngModel)]="nuevaNoticia.imagen"
+            placeholder="https://..."
+            required
+          />
+        </label>
+
+        <label class="campo">
+          <span>Texto</span>
+          <textarea
+            name="texto"
+            [(ngModel)]="nuevaNoticia.texto"
+            rows="5"
+            placeholder="Escribe el cuerpo de la noticia"
+            required
+          ></textarea>
+        </label>
+
+        <label class="campo">
+          <span>Fecha de publicacion</span>
+          <input
+            type="date"
+            name="fecha"
+            [(ngModel)]="nuevaNoticia.fecha"
+            required
+          />
+        </label>
+
+        <p *ngIf="mensajeError" class="mensaje mensaje--error">{{ mensajeError }}</p>
+
+        <button type="submit" class="boton-publicar">Publicar noticia</button>
+      </form>
+    </section>
+
+    <section class="panel panel--listado">
+      <div class="panel__header">
+        <p class="panel__kicker">Listado</p>
+        <h2>Noticias publicadas</h2>
+        <p>El listado se renderiza desde el array del componente con `*ngFor`.</p>
+      </div>
+
+      <p class="contador">{{ noticias.length }} noticias disponibles</p>
+
+      <div class="noticias">
+        <article class="noticia-card" *ngFor="let noticia of noticias; trackBy: trackByTitulo">
+          <img class="noticia-card__imagen" [src]="noticia.imagen" [alt]="noticia.titulo" />
+
+          <div class="noticia-card__contenido">
+            <p class="noticia-card__fecha">{{ noticia.fecha | date:'dd/MM/yyyy' }}</p>
+            <h3>{{ noticia.titulo }}</h3>
+            <p>{{ noticia.texto }}</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</section>
