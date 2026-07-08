@@ -3,11 +3,15 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 import { Blog } from './blog';
 
+const STORAGE_KEY = 'blog-noticias';
+
 describe('Blog', () => {
   let component: Blog;
   let fixture: ComponentFixture<Blog>;
 
   beforeEach(async () => {
+    localStorage.clear();
+
     await TestBed.configureTestingModule({
       declarations: [Blog],
       imports: [FormsModule]
@@ -17,6 +21,10 @@ describe('Blog', () => {
     fixture = TestBed.createComponent(Blog);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   it('should create', () => {
@@ -63,6 +71,25 @@ describe('Blog', () => {
     expect(component.mensajeError).toBe('');
     expect(component.noticias.length).toBe(3);
     expect(component.noticias[0].titulo).toBe('Nueva noticia');
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')[0].titulo).toBe('Nueva noticia');
     expect(formularioMock.resetForm).toHaveBeenCalled();
+  });
+
+  it('should load saved news from local storage on init', () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([
+      {
+        titulo: 'Noticia guardada',
+        imagen: 'https://example.com/guardada.jpg',
+        texto: 'Contenido recuperado',
+        fecha: '2026-07-08',
+      },
+    ]));
+
+    const nuevoFixture = TestBed.createComponent(Blog);
+    const nuevoComponente = nuevoFixture.componentInstance;
+    nuevoFixture.detectChanges();
+
+    expect(nuevoComponente.noticias.length).toBe(1);
+    expect(nuevoComponente.noticias[0].titulo).toBe('Noticia guardada');
   });
 });
