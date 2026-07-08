@@ -24,7 +24,20 @@ export class Blog {
     fecha: '',
   };
 
-  noticias: Noticia[] = [];
+    noticias: Noticia[] = [
+    {
+      titulo: 'Angular 20 mejora la experiencia de desarrollo',
+      imagen: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+      texto: 'La nueva version de Angular sigue apostando por una experiencia moderna, rapida y enfocada en componentes.',
+      fecha: '2026-06-28',
+    },
+    {
+      titulo: 'GitHub facilita el trabajo colaborativo',
+      imagen: 'https://images.unsplash.com/photo-1556075798-4825dfaaf498?auto=format&fit=crop&w=1200&q=80',
+      texto: 'Usar ramas, commits y repositorios publicos permite entregar proyectos con un historial claro de cambios.',
+      fecha: '2026-07-01',
+    },
+  ];
 
   agregarNoticia(formulario: NgForm): void {
     const noticiaLimpia: Noticia = {
